@@ -70,6 +70,44 @@ If the deployment is successful, you should see the following:
   <img src="/images/checks-passed.png" alt="Screenshot of a deployment confirmation message that says All checks have passed." style={{ borderRadius: '0.5rem' }} />
 </Frame>
 
+## Sync docs from another repository
+
+You can pull docs from another repository in a GitHub Action, commit the synced files in this docs repository, and let that push trigger a new Mintlify deployment.
+
+To trigger the sync when the source repository changes, send a `repository_dispatch` event from the source repository to this docs repository and run a sync workflow here.
+
+```yaml
+name: Sync docs from source repo
+on:
+  repository_dispatch:
+    types: [sync-docs]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          repository: your-org/source-repo
+          token: ${{ secrets.SOURCE_REPO_READ_TOKEN }}
+          path: source
+      - run: rsync -av --delete source/docs/ ./imported-docs/
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add imported-docs
+          git commit -m "chore: sync docs from source repo" || exit 0
+          git push
+```
+
+If the source repository is private, configure a token with read access to `your-org/source-repo` in the checkout step.
+The `--delete` flag removes files in `./imported-docs/` that are no longer present in `source/docs/`.
+The `git commit ... || exit 0` line keeps the job green when there are no sync changes to commit.
+
 ## Code formatting
 
 We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
