@@ -72,7 +72,7 @@ If the deployment is successful, you should see the following:
 
 ## Sync docs from another repository
 
-Yes. You can pull docs from another repository in a GitHub Action, commit the synced files in this docs repository, and let that push trigger a new Mintlify deployment.
+You can pull docs from another repository in a GitHub Action, commit the synced files in this docs repository, and let that push trigger a new Mintlify deployment.
 
 To trigger the sync when the source repository changes, send a `repository_dispatch` event from the source repository to this docs repository and run a sync workflow here.
 
@@ -87,10 +87,13 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+      - name: Checkout source repository
+        uses: actions/checkout@v4
         with:
           repository: your-org/source-repo
+          token: ${{ secrets.SOURCE_REPO_READ_TOKEN }}
           path: source
       - run: rsync -av --delete source/docs/ ./imported-docs/
       - run: |
@@ -100,6 +103,10 @@ jobs:
           git commit -m "chore: sync docs from source repo" || exit 0
           git push
 ```
+
+If the source repository is private, configure a token with read access to `your-org/source-repo` in the checkout step.
+The `--delete` flag removes files in `./imported-docs/` that are no longer present in `source/docs/`.
+The `git commit ... || exit 0` line keeps the job green when there are no sync changes to commit.
 
 ## Code formatting
 
