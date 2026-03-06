@@ -1,97 +1,78 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Vitruvian"
+description: ".NET GOAP agent runtime with dependency-aware planning, parallel execution, and human-in-the-loop approval."
 ---
 
-## Setting up
+Vitruvian is a .NET GOAP agent runtime that breaks user requests into dependency-aware plans, runs independent steps in parallel, and gates side-effecting actions behind human approval.
 
-Get your documentation site up and running in minutes.
+## Quickstart
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+<Info>
+  **Prerequisites**:
+  - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
+  - [Git](https://git-scm.com/)
+  - An API key for OpenAI, Anthropic, or Gemini
+</Info>
 
-## Make it yours
+```bash
+git clone https://github.com/mrrasmussendk/Vitruvian.git
+cd Vitruvian
+dotnet build Vitruvian.sln
+dotnet test Vitruvian.sln
+./scripts/install.sh
+dotnet run --project src/Vitruvian.Cli
+```
 
-Design a docs site that looks great and empowers your users.
+Try requests like:
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+```text
+> What is the weather tomorrow?
+> Create a file called notes.txt with content "Hello World"
+> Read notes.txt then summarize it
+```
+
+## Key features
+
+- **GOAP planning**: decomposes requests into execution steps with dependency edges before running.
+- **Parallel execution**: runs independent steps concurrently.
+- **Human-in-the-loop (HITL)**: requires approval for write, delete, and execute operations.
+- **Result caching**: reuses output for identical module and input pairs.
+- **Compound requests**: splits multi-intent prompts and routes each task through the same pipeline.
+- **Module extensibility**: lets you implement `IVitruvianModule` and register via DI or plugin DLL.
+
+## Request lifecycle
+
+```text
+User Request
+    ↓
+PLAN (GoapPlanner creates an ExecutionPlan)
+    ↓
+EXECUTE (cache check → approval gate → module execution)
+    ↓
+MEMORY (store result + conversation turn)
+    ↓
+Response
+```
+
+## Documentation
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/INSTALL.md">
+    Set up prerequisites, build, test, and configure providers.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Using Vitruvian" icon="terminal" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/USING.md">
+    Run the CLI, use commands, and work with approvals.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Architecture" icon="blocks" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/ARCHITECTURE.md">
+    Understand the planning and execution pipeline.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Extending" icon="puzzle-piece" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/EXTENDING.md">
+    Build and install custom modules.
   </Card>
-</Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+  <Card title="Security" icon="shield-check" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/SECURITY.md">
+    Review permissions, sandboxing, and plugin controls.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="Compound requests" icon="split" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/COMPOUND-REQUESTS.md">
+    Learn how Vitruvian handles multi-intent requests.
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+</CardGroup>
