@@ -1,0 +1,71 @@
+---
+title: "Gotchas and newcomer guide"
+description: "High-impact mistakes and how to avoid them when adopting Vitruvian."
+---
+
+This page is intentionally practical. Read it before your first production rollout.
+
+## Setup gotchas
+
+### 1) Wrong .NET SDK version
+
+Vitruvian is tested on `.NET 8`. While newer versions may work, use stable .NET 8 in production environments.
+
+### 2) Confusing profile files
+
+Do not edit only `.env.Vitruvian` and expect profile-specific values to update. `.env.Vitruvian` points to a profile; your actual values live in `.env.Vitruvian.<profile>`.
+
+### 3) Mixed provider variables
+
+Keep only the active provider key in your current profile while testing. Mixed keys can hide misconfiguration during provider switching.
+
+## Runtime gotchas
+
+### 4) Approval prompts timing out
+
+If you run unattended tests, side-effecting operations can fail because HITL approval defaults to deny on timeout.
+
+### 5) File operations outside expected workspace
+
+Set `VITRUVIAN_WORKING_DIRECTORY` explicitly in shared environments to avoid surprises.
+
+### 6) Invalid compound decomposition
+
+If your prompt combines too many unrelated tasks, decomposition quality drops. Split requests manually for predictable execution.
+
+## Plugin gotchas
+
+### 7) Non-unique domain names
+
+A duplicate `Domain` value can produce confusing routing and command output.
+
+### 8) Missing permission attributes
+
+If your plugin reads or writes data but lacks `[RequiresPermission]`, runtime enforcement can block execution.
+
+### 9) Missing required secrets
+
+If you use external APIs, declare `[RequiresApiKey("...")]` so install-time prompting catches missing secrets early.
+
+## Operations gotchas
+
+### 10) Running without durable audit storage
+
+Without `VITRUVIAN_MEMORY_CONNECTION_STRING`, you lose long-lived audit history.
+
+### 11) Ignoring `doctor` output
+
+`doctor` findings are low effort to fix and high value for reducing production risk.
+
+### 12) Installing untrusted plugins
+
+Use `inspect-module` and manifest/signing checks before enabling third-party modules.
+
+## New team onboarding checklist
+
+- [ ] Install .NET 8 and run build/test locally.
+- [ ] Run guided setup and verify profile files.
+- [ ] Practice approval prompts safely in `dev` profile.
+- [ ] Read architecture and security pages.
+- [ ] Run `doctor --json` and fix findings.
+- [ ] Install one sample plugin end-to-end.

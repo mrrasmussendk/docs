@@ -1,0 +1,71 @@
+---
+title: "Configuration profiles"
+description: "How profile files, environment variables, model providers, and deployment modes work."
+---
+
+## Profile files
+
+Vitruvian setup creates:
+
+- `.env.Vitruvian` (active profile pointer)
+- `.env.Vitruvian.<profile>` (profile-specific values)
+
+Supported profiles:
+
+- `dev`
+- `personal`
+- `team`
+- `prod`
+
+## Essential variables
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `VITRUVIAN_PROFILE` | Recommended | Selects active profile file |
+| `VITRUVIAN_MODEL_PROVIDER` | Yes | `openai`, `anthropic`, `gemini` |
+| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GEMINI_API_KEY` | Conditional | Provider credentials |
+| `VITRUVIAN_MODEL_NAME` | No | Override provider default model |
+| `VITRUVIAN_WORKING_DIRECTORY` | No | Base workspace for file operations |
+| `VITRUVIAN_MEMORY_CONNECTION_STRING` | No | Durable memory and audit storage |
+
+## Deployment-mode variables
+
+| Mode | Required variables |
+| --- | --- |
+| Local CLI | none beyond provider config |
+| Discord | `DISCORD_BOT_TOKEN`, `DISCORD_CHANNEL_ID` |
+| WebSocket | `VITRUVIAN_WEBSOCKET_URL` |
+
+Optional WebSocket helpers:
+
+- `VITRUVIAN_WEBSOCKET_PUBLIC_URL`
+- `VITRUVIAN_WEBSOCKET_DOMAIN`
+
+## Non-interactive profile switching
+
+<Tabs>
+  <Tab title="Linux / macOS">
+
+  ```bash
+  ./scripts/install.sh dev
+  ./scripts/install.sh team
+  ```
+
+  </Tab>
+  <Tab title="Windows PowerShell">
+
+  ```powershell
+  .\scripts\install.ps1 -Profile dev
+  .\scripts\install.ps1 -Profile team
+  ```
+
+  </Tab>
+</Tabs>
+
+## Gotchas
+
+- Use lowercase provider values (`openai`, `anthropic`, `gemini`) when following the installation flow in this documentation.
+- Do not mix old variable prefixes with new ones in the same profile.
+- If setup prompts for keys repeatedly, make sure your profile file is writable.
+
+Next: read <a href="/getting-started/running-vitruvian">Running Vitruvian day to day</a>.

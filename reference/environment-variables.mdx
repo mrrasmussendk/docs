@@ -1,0 +1,50 @@
+---
+title: "Environment variables"
+description: "Complete variable guide for providers, runtime behavior, integrations, and storage."
+---
+
+## Core runtime
+
+| Variable | Description |
+| --- | --- |
+| `VITRUVIAN_PROFILE` | Active profile selector |
+| `VITRUVIAN_MODEL_PROVIDER` | `openai`, `anthropic`, `gemini` |
+| `VITRUVIAN_MODEL_NAME` | Model override |
+| `VITRUVIAN_MODEL_MAX_TOKENS` | Anthropic max tokens override |
+| `VITRUVIAN_WORKING_DIRECTORY` | Workspace for file operations |
+| `VITRUVIAN_MEMORY_CONNECTION_STRING` | Durable memory/audit store |
+
+## Provider credentials
+
+| Variable | Used when |
+| --- | --- |
+| `OPENAI_API_KEY` | Provider is OpenAI |
+| `ANTHROPIC_API_KEY` | Provider is Anthropic |
+| `GEMINI_API_KEY` | Provider is Gemini |
+
+## Discord mode
+
+| Variable | Description |
+| --- | --- |
+| `DISCORD_BOT_TOKEN` | Bot authentication token |
+| `DISCORD_CHANNEL_ID` | Channel to poll |
+| `DISCORD_POLL_INTERVAL_SECONDS` | Poll frequency |
+| `DISCORD_MESSAGE_LIMIT` | Max messages fetched per cycle |
+
+## WebSocket mode
+
+| Variable | Description |
+| --- | --- |
+| `VITRUVIAN_WEBSOCKET_URL` | Listener endpoint |
+| `VITRUVIAN_WEBSOCKET_PUBLIC_URL` | Public URL shown to users |
+| `VITRUVIAN_WEBSOCKET_DOMAIN` | Domain tag for incoming requests |
+
+## Operations and posture
+
+| Variable | Description |
+| --- | --- |
+| `VITRUVIAN_SECRET_PROVIDER` | External secret provider integration |
+
+## Safety note
+
+Never commit real API keys. Store secrets in secure secret managers and inject at runtime.

@@ -1,0 +1,37 @@
+---
+title: "Operations playbook"
+description: "Audit, replay, doctor diagnostics, and production operational habits."
+---
+
+## Audit commands
+
+- `audit list`
+- `audit show <id>`
+- `audit show <id> --json`
+
+Use durable storage to keep records across restarts:
+
+```bash
+export VITRUVIAN_MEMORY_CONNECTION_STRING="Data Source=/path/to/Vitruvian.db;Pooling=False"
+```
+
+## Replay commands
+
+- `replay <id>`
+- `replay <id> --no-exec`
+
+Replay helps you debug routing and scoring decisions without forcing side effects.
+
+## Doctor command
+
+- `doctor`
+- `doctor --json`
+
+Doctor checks for missing security-critical configuration such as durable audit storage and secret provider settings.
+
+## Recommended production routine
+
+1. Run `doctor --json` in CI.
+2. Review `audit list` regularly.
+3. Investigate high-risk approvals and denied operations.
+4. Keep plugin and policy changes versioned and reviewed.

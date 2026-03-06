@@ -14,12 +14,15 @@
 
 ## Terminology
 
-<!-- Add product-specific terms and preferred usage -->
-<!-- Example: Use "workspace" not "project", "member" not "user" -->
+Use Vitruvian-specific terminology consistently:
+
+- Prefer **module** for runtime capability units implementing `IVitruvianModule`.
+- Use **plugin** when referring to distributable DLL packages installed by users.
+- Use **profile** for `.env.Vitruvian.<profile>` configuration variants.
 
 ## Style preferences
 
-<!-- Add any project-specific style rules below -->
+Add any project-specific style rules below.
 
 - Use active voice and second person ("you")
 - Keep sentences concise — one idea per sentence
@@ -29,5 +32,5 @@
 
 ## Content boundaries
 
-<!-- Define what should and shouldn't be documented -->
-<!-- Example: Don't document internal admin features -->
+Document public CLI workflows, module authoring, and operational controls.
+Avoid documenting private infrastructure details or internal-only deployment secrets.

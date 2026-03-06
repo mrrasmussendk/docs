@@ -1,0 +1,52 @@
+---
+title: "Compound requests"
+description: "How Vitruvian detects, decomposes, and executes multi-intent user requests."
+---
+
+## What is a compound request?
+
+A single user message containing multiple independent intents.
+
+Example:
+
+```text
+Create a file called u.txt with gold. Then give me the colors of the rainbow.
+```
+
+## Detection heuristics
+
+`CompoundRequestOrchestrator.IsCompoundRequest()` looks for:
+
+- sequential indicators (`then`, `after that`, `followed by`)
+- multiple action verbs (for example `create`, `write`, `read`, `delete`)
+
+## Decomposition flow
+
+When compound intent is detected and a model client is available, Vitruvian asks the model to return a JSON array of self-contained tasks.
+
+```json
+[
+  "Create a file called u.txt with the word gold",
+  "Give me the colors of the rainbow"
+]
+```
+
+Each sub-task then runs through the full planning and execution pipeline.
+
+## Why host-level decomposition is important
+
+Compound handling is orchestration-level, not module-level:
+
+- modules stay focused on one domain
+- new plugins work without special compound logic
+- governance and security checks still apply per sub-task
+
+## Fallback behavior
+
+- no model client: guidance fallback path
+- invalid JSON from model: fallback to single-request handling
+- cancellation: propagated correctly through decomposition and execution
+
+## Practical advice
+
+If decomposition quality is weak, rewrite your request with clearer separators such as `then`, `and then`, or `after that`.

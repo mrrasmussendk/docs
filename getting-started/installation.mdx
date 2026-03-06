@@ -1,0 +1,92 @@
+---
+title: "Install and first run"
+description: "Prerequisites, clone, build, test, setup, and launch Vitruvian CLI."
+---
+
+## Prerequisites
+
+Install the following first:
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
+- [Git](https://git-scm.com/)
+
+Verify your environment:
+
+```bash
+dotnet --version
+git --version
+```
+
+## Clone, build, and test
+
+```bash
+git clone https://github.com/mrrasmussendk/Vitruvian.git
+cd Vitruvian
+dotnet build Vitruvian.sln
+dotnet test Vitruvian.sln
+```
+
+If you only need to test one area:
+
+```bash
+dotnet test --filter "FullyQualifiedName~GoapPlannerTests"
+```
+
+## Guided setup (recommended)
+
+Run the installer script. It writes profile-based environment files and selects your active profile.
+
+<Tabs>
+  <Tab title="Linux / macOS">
+
+  ```bash
+  ./scripts/install.sh
+  ```
+
+  </Tab>
+  <Tab title="Windows PowerShell">
+
+  ```powershell
+  .\scripts\install.ps1
+  ```
+
+  </Tab>
+</Tabs>
+
+Setup asks you to choose:
+
+1. Profile (`dev`, `personal`, `team`, `prod`)
+2. Provider (`openai`, `anthropic`, `gemini`)
+3. API key
+4. Optional model override
+5. Deployment mode (local CLI, Discord, or WebSocket)
+6. Memory storage mode
+
+## Run Vitruvian
+
+```bash
+dotnet run --project src/Vitruvian.Cli
+```
+
+Expected prompt:
+
+```text
+Vitruvian CLI started. Type a request (or 'quit' to exit):
+>
+```
+
+Try:
+
+```text
+> What is the weather tomorrow?
+> Create a file called notes.txt with content "Hello World"
+> Read notes.txt then summarize it
+```
+
+## Quick troubleshooting
+
+- `dotnet: command not found`: install .NET 8 SDK and restart shell.
+- NuGet restore fails: verify access to `https://api.nuget.org/v3/index.json`.
+- Wrong profile loaded: confirm `.env.Vitruvian` points to the expected `VITRUVIAN_PROFILE`.
+
+Next: read <a href="/getting-started/configuration-profiles">Configuration profiles</a>.

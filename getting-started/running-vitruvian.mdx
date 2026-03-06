@@ -1,0 +1,49 @@
+---
+title: "Running Vitruvian"
+description: "Daily usage patterns, request flow, and practical operation tips."
+---
+
+## Start the CLI
+
+```bash
+dotnet run --project src/Vitruvian.Cli
+```
+
+## How each request is handled
+
+1. **Plan**: `GoapPlanner` creates an `ExecutionPlan` with `PlanStep` nodes.
+2. **Execute**: `PlanExecutor` runs steps in dependency waves.
+3. **Remember**: results and conversation turns are stored for context.
+
+## Human approval in practice
+
+You get approval prompts for side effects such as writes, deletes, and process execution.
+
+```text
+[APPROVAL REQUIRED] Module 'file-operations' wants to perform: Write
+  Description: Create file todo.txt
+  Approve? (y/n):
+```
+
+If you do not answer before timeout, Vitruvian denies by default.
+
+## Conversation continuity
+
+Vitruvian keeps recent conversation context (up to 10 turns), so follow-up requests stay coherent.
+
+```text
+> What is the weather tomorrow?
+Assistant: I need your location. What city are you in?
+> Copenhagen
+Assistant: ...
+```
+
+## Runtime module management
+
+- `/list-modules`
+- `/install-module <path>`
+- `/load-module <path>`
+- `/unregister-module <domain or filename>`
+- `/configure-modules`
+
+For the complete command list, see <a href="/reference/cli-commands">CLI command reference</a>.
