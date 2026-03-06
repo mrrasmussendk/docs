@@ -1,0 +1,40 @@
+---
+title: "Build and deploy to Mintlify"
+description: "Build checks and deployment steps for publishing this documentation site with Mintlify."
+---
+
+## Prerequisites
+
+Install the Mintlify CLI:
+
+```bash
+npm i -g mint
+```
+
+Run commands from the repository root where `docs.json` is located.
+
+## Build checks before deployment
+
+Run these checks before you push:
+
+```bash
+mint broken-links
+mint validate
+```
+
+- `mint broken-links` verifies internal links.
+- `mint validate` verifies your configuration and page structure.
+
+## Deploy the site
+
+1. Open your Mintlify dashboard.
+2. Install and authorize the GitHub app for this repository.
+3. Push your docs changes to the default branch.
+
+Mintlify deploys changes automatically after the push completes.
+
+## Verify deployment
+
+1. Open your production docs URL.
+2. Confirm that your updated page appears in sidebar navigation.
+3. Open a few changed pages and confirm links and media load correctly.
