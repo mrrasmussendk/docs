@@ -7,7 +7,10 @@
     "light": "#a61ccb",
     "dark": "#420c50"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "light": "/favicon.svg",
+    "dark": "/favicon.svg"
+  },
   "navigation": {
     "tabs": [
       {
@@ -112,7 +115,8 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/mrrasmussendk/Vitruvian"
+      "github": "https://github.com/mrrasmussendk/Vitruvian",
+      "linkedin": "https://www.linkedin.com/in/marcrasmussenit"
     }
   }
 }
