@@ -14,7 +14,11 @@
 
 ## Terminology
 
-Product-specific terms and preferred usage can be documented here.
+Use Vitruvian-specific terminology consistently:
+
+- Prefer **module** for runtime capability units implementing `IVitruvianModule`.
+- Use **plugin** when referring to distributable DLL packages installed by users.
+- Use **profile** for `.env.Vitruvian.<profile>` configuration variants.
 
 ## Style preferences
 
@@ -28,4 +32,5 @@ Add any project-specific style rules below.
 
 ## Content boundaries
 
-Define what should and should not be documented.
+Document public CLI workflows, module authoring, and operational controls.
+Avoid documenting private infrastructure details or internal-only deployment secrets.
