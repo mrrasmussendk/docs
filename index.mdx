@@ -1,78 +1,71 @@
 ---
-title: "Vitruvian"
-description: ".NET GOAP agent runtime with dependency-aware planning, parallel execution, and human-in-the-loop approval."
+title: "Vitruvian documentation"
+description: "Complete guide to install, run, secure, and extend the Vitruvian .NET GOAP agent runtime."
 ---
 
-Vitruvian is a .NET GOAP agent runtime that breaks user requests into dependency-aware plans, runs independent steps in parallel, and gates side-effecting actions behind human approval.
-
-## Quickstart
-
-<Info>
-  **Prerequisites**:
-  - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
-  - [Git](https://git-scm.com/)
-  - An API key for OpenAI, Anthropic, or Gemini
-</Info>
-
-```bash
-git clone https://github.com/mrrasmussendk/Vitruvian.git
-cd Vitruvian
-dotnet build Vitruvian.sln
-dotnet test Vitruvian.sln
-./scripts/install.sh
-dotnet run --project src/Vitruvian.Cli
-```
-
-Try requests like:
-
-```text
-> What is the weather tomorrow?
-> Create a file called notes.txt with content "Hello World"
-> Read notes.txt then summarize it
-```
-
-## Key features
-
-- **GOAP planning**: decomposes requests into execution steps with dependency edges before running.
-- **Parallel execution**: runs independent steps concurrently.
-- **Human-in-the-loop (HITL)**: requires approval for write, delete, and execute operations.
-- **Result caching**: reuses output for identical module and input pairs.
-- **Compound requests**: splits multi-intent prompts and routes each task through the same pipeline.
-- **Module extensibility**: lets you implement `IVitruvianModule` and register via DI or plugin DLL.
-
-## Request lifecycle
-
-```text
-User Request
-    ↓
-PLAN (GoapPlanner creates an ExecutionPlan)
-    ↓
-EXECUTE (cache check → approval gate → module execution)
-    ↓
-MEMORY (store result + conversation turn)
-    ↓
-Response
-```
-
-## Documentation
+Vitruvian is a modular .NET agent runtime that plans work as dependency-aware steps, executes independent steps in parallel, and protects side-effecting actions with human approval.
 
 <CardGroup cols={2}>
-  <Card title="Installation" icon="download" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/INSTALL.md">
-    Set up prerequisites, build, test, and configure providers.
+  <Card title="Install and first run" icon="rocket" href="/getting-started/installation">
+    Go from zero to a working CLI in minutes.
   </Card>
-  <Card title="Using Vitruvian" icon="terminal" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/USING.md">
-    Run the CLI, use commands, and work with approvals.
+  <Card title="Configuration profiles" icon="sliders" href="/getting-started/configuration-profiles">
+    Understand `.env.Vitruvian`, profiles, and deployment modes.
   </Card>
-  <Card title="Architecture" icon="blocks" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/ARCHITECTURE.md">
-    Understand the planning and execution pipeline.
+  <Card title="Architecture" icon="blocks" href="/core-concepts/architecture">
+    Learn how GOAP planning, execution waves, and memory fit together.
   </Card>
-  <Card title="Extending" icon="puzzle-piece" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/EXTENDING.md">
-    Build and install custom modules.
+  <Card title="Compound requests" icon="split" href="/core-concepts/compound-requests">
+    See how Vitruvian decomposes multi-intent prompts.
   </Card>
-  <Card title="Security" icon="shield-check" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/SECURITY.md">
-    Review permissions, sandboxing, and plugin controls.
+  <Card title="Module catalog" icon="puzzle-piece" href="/modules/module-catalog">
+    Review built-in modules and optional modules.
   </Card>
-  <Card title="Compound requests" icon="split" href="https://github.com/mrrasmussendk/Vitruvian/blob/main/docs/COMPOUND-REQUESTS.md">
-    Learn how Vitruvian handles multi-intent requests.
+  <Card title="Build plugins" icon="code" href="/modules/build-a-plugin">
+    Implement your own `IVitruvianModule` with safe defaults.
+  </Card>
+  <Card title="Security model" icon="shield-check" href="/operations/security-model">
+    Apply permissions, HITL approvals, sandboxing, and install controls.
+  </Card>
+  <Card title="Gotchas guide" icon="triangle-exclamation" href="/guides/gotchas">
+    Avoid common setup and runtime mistakes.
   </Card>
 </CardGroup>
+
+## What Vitruvian gives you
+
+- **GOAP planning**: `GoapPlanner` builds an `ExecutionPlan` with explicit dependencies.
+- **Parallel execution**: `PlanExecutor` runs independent steps concurrently.
+- **Human-in-the-loop controls**: write, delete, network, and command execution paths can require approval.
+- **Memory and caching**: repeated module + input pairs can reuse cached results.
+- **Composable modules**: use built-in modules or load plugin DLLs.
+- **Governance and policy**: score proposals with cost/risk constraints and enforce rule-based safeguards.
+
+## End-to-end request lifecycle
+
+```text
+User request
+  → PLAN (GoapPlanner)
+  → EXECUTE (PlanExecutor)
+     → cache check
+     → approval gate for side effects
+     → module execution
+     → cache store
+  → MEMORY (plan + conversation turn)
+  → response
+```
+
+## Recommended learning path for newcomers
+
+1. Read **Install and first run**.
+2. Read **Configuration profiles**.
+3. Run through **CLI command reference**.
+4. Review **Gotchas guide** before production use.
+5. Continue with **Security model** and **Governance and policy**.
+
+## Upstream sources
+
+This site is built from the Vitruvian repository code and docs:
+
+- <a href="https://github.com/mrrasmussendk/Vitruvian" target="_blank">Repository</a>
+- <a href="https://github.com/mrrasmussendk/Vitruvian/tree/main/docs" target="_blank">Original markdown docs</a>

@@ -1,0 +1,71 @@
+---
+title: "Architecture"
+description: "GOAP pipeline, key interfaces, and the internals that drive Vitruvian."
+---
+
+## GOAP pipeline overview
+
+```text
+User request
+  ↓
+PLAN: GoapPlanner builds ExecutionPlan (DAG)
+  ↓
+EXECUTE: PlanExecutor runs dependency waves
+  ↓
+MEMORY: store PlanResult + conversation turn
+  ↓
+Response
+```
+
+## Core contracts and components
+
+### `IVitruvianModule`
+
+Every capability implements:
+
+```csharp
+public interface IVitruvianModule
+{
+    string Domain { get; }
+    string Description { get; }
+    Task<string> ExecuteAsync(string request, string? userId, CancellationToken ct);
+}
+```
+
+### `GoapPlanner`
+
+Creates dependency-aware plans from a user request and available modules.
+
+### `PlanExecutor`
+
+Executes steps by wave:
+
+- cache lookup
+- HITL approval gate for side effects
+- context injection from prior outputs
+- module execution
+- cache write-back
+
+### `RequestProcessor`
+
+Coordinates planning, execution, memory, and compound request orchestration.
+
+### `ModuleRouter`
+
+Picks modules by model-assisted routing with keyword fallback when no model client is available.
+
+## Planning types to know
+
+- `PlanStep`
+- `ExecutionPlan`
+- `PlanStepResult`
+- `PlanResult`
+
+These types are defined in `src/Vitruvian.Abstractions/Planning` and are the backbone of observability and deterministic behavior.
+
+## Why this architecture matters
+
+- You get deterministic ordering through explicit dependencies.
+- You improve latency with safe parallel waves.
+- You isolate module complexity behind a stable contract.
+- You keep security controls centralized in runtime and host layers.

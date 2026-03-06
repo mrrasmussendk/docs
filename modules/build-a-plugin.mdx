@@ -1,0 +1,71 @@
+---
+title: "Build a plugin module"
+description: "Implement IVitruvianModule, declare permissions, wire tools, and publish safely."
+---
+
+## 1) Create a class library
+
+Create a `net8.0` class library and reference:
+
+- `Vitruvian.Abstractions`
+- optionally `Vitruvian.PluginSdk`
+
+## 2) Implement `IVitruvianModule`
+
+```csharp
+using VitruvianAbstractions.Interfaces;
+
+public sealed class TranslationModule : IVitruvianModule
+{
+    public string Domain => "translation";
+    public string Description => "Translate text between languages using AI";
+
+    public Task<string> ExecuteAsync(string request, string? userId, CancellationToken ct)
+        => Task.FromResult("...");
+}
+```
+
+## 3) Add SDK attributes
+
+Use capability, goals, lane, cost/risk, cooldown, and conflict metadata where relevant.
+
+```csharp
+[VitruvianCapability("translation", priority: 5)]
+[VitruvianGoals(GoalTag.Answer)]
+[VitruvianLane(Lane.Execute)]
+```
+
+## 4) Declare permissions and secrets
+
+```csharp
+[RequiresPermission(ModuleAccess.Read)]
+[RequiresPermission(ModuleAccess.Write, resource: "files/*")]
+[RequiresApiKey("WEATHER_API_KEY")]
+```
+
+Vitruvian uses these declarations for install-time prompts and runtime enforcement.
+
+## 5) Build and install
+
+```bash
+dotnet publish -c Release
+cp bin/Release/net8.0/publish/* \
+  path/to/Vitruvian.Cli/bin/Debug/net8.0/plugins/
+```
+
+Or use CLI install:
+
+```text
+/install-module /absolute/path/MyPlugin.dll
+```
+
+## 6) Tool calling from modules
+
+Use `ModelToolBuilder` and `IModelClient.ExecuteWithToolsAsync` for robust function and MCP tool flows.
+
+## Plugin author gotchas
+
+- Always declare side-effect permissions.
+- Handle missing model clients gracefully (`IModelClient?`).
+- Return user-facing errors, not only technical stack traces.
+- Reuse `ICommandRunner` for process execution instead of custom process code.

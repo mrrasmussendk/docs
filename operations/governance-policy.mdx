@@ -1,0 +1,41 @@
+---
+title: "Governance and policy"
+description: "Proposal filtering, scoring, hysteresis, conflict handling, and policy explainability."
+---
+
+## Governance pipeline
+
+1. proposal generation
+2. goal/lane filtering
+3. conflict and cooldown checks
+4. policy and trust checks
+5. cost/risk scoring
+6. execution with audit record
+
+## Effective score
+
+```text
+effectiveScore = utility − (costWeight × trustedCost) − (riskWeight × trustedRisk)
+```
+
+Vitruvian also applies minimum cost/risk floors by side-effect level so modules cannot under-report risk.
+
+## Hysteresis
+
+Near-tie winners can stay selected to avoid oscillation between equivalent modules.
+
+## Policy commands
+
+- `policy validate <policyFile>`
+- `policy explain <request>`
+
+When no custom policy is set, `EnterpriseSafe` defaults are used:
+
+- read-only intent: allowed
+- write/destructive intent: approval required
+
+## Governance gotchas
+
+- If your module never wins, tune utility and metadata before tuning risk floors.
+- Cooldowns can make a healthy module appear unavailable if TTL is too aggressive.
+- Conflicts are explicit; declare them to avoid contradictory execution paths.

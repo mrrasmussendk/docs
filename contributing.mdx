@@ -1,0 +1,42 @@
+---
+title: "Contributing"
+description: "Development workflow, project structure, and contribution expectations."
+---
+
+## Local development loop
+
+```bash
+git clone https://github.com/mrrasmussendk/Vitruvian.git
+cd Vitruvian
+dotnet build Vitruvian.sln
+dotnet test Vitruvian.sln
+```
+
+## Key project areas
+
+| Project | Responsibility |
+| --- | --- |
+| `src/Vitruvian.Abstractions` | Interfaces, enums, planning and facts |
+| `src/Vitruvian.Runtime` | Planning, routing, permissions, orchestration |
+| `src/Vitruvian.PluginSdk` | Plugin attributes and metadata helpers |
+| `src/Vitruvian.PluginHost` | Plugin loading and sandboxing |
+| `src/Vitruvian.Hitl` | Approval gate and audit record types |
+| `src/Vitruvian.StandardModules` | Built-in module set |
+| `src/Vitruvian.Cli` | Host entrypoint, installer, command surface |
+| `tests/Vitruvian.Tests` | Unit and integration tests |
+
+## Contribution expectations
+
+- Keep nullable reference annotations accurate.
+- Use file-scoped namespaces.
+- Prefer `sealed` classes unless inheritance is required.
+- Add or update tests for public behavior changes.
+- Run targeted tests first, then full suite before PR.
+
+## Focus areas
+
+- governance improvements
+- planning and execution behavior
+- plugin interoperability
+- module quality and ergonomics
+- reliability and coverage in tests

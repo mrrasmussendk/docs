@@ -1,0 +1,52 @@
+---
+title: "Security model"
+description: "Layered controls: permissions, HITL approvals, sandboxing, and installation trust checks."
+---
+
+Vitruvian applies a deny-by-default design across four layers.
+
+## 1) Permission model
+
+Modules declare required access via `[RequiresPermission]` and runtime enforces it through `PermissionChecker`.
+
+`ModuleAccess` flags:
+
+- `Read`
+- `Write`
+- `Execute`
+
+Permission resolution follows user → group → other context.
+
+## 2) HITL approval gate
+
+`IApprovalGate` mediates side-effecting operations.
+
+- write, delete, network, and execute paths can require approval
+- timeout behavior is deny by default
+- decisions are recorded as approval audit records
+
+## 3) Sandboxed module execution
+
+`SandboxedModuleRunner` and `ISandboxPolicy` provide limits for:
+
+- CPU time
+- memory
+- wall-clock runtime
+- file system access
+- network access
+- process spawning
+
+## 4) Installation controls
+
+Before install, Vitruvian enforces:
+
+- plugin manifest (`Vitruvian-manifest.json`)
+- signing checks (unless explicitly overridden for local development)
+- required secret prompts
+
+## Security operator checklist
+
+- Set durable memory storage for audit (`VITRUVIAN_MEMORY_CONNECTION_STRING`).
+- Review plugin manifests before install.
+- Keep approval timeouts and prompts enabled in production.
+- Run `doctor` regularly and track findings in CI.

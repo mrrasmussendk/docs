@@ -1,0 +1,43 @@
+---
+title: "CLI command reference"
+description: "User and operator command reference for Vitruvian CLI."
+---
+
+## General commands
+
+| Command | What it does |
+| --- | --- |
+| `/help` | Show available commands |
+| `/setup` | Start guided setup |
+| `quit` | Exit CLI |
+
+## Module commands
+
+| Command | What it does |
+| --- | --- |
+| `/list-modules` | Show registered modules |
+| `/configure-modules` | Enable or disable modules interactively |
+| `/install-module PATH` | Install a plugin module |
+| `/load-module PATH` | Load a plugin DLL for current session |
+| `/unregister-module DOMAIN_OR_FILENAME` | Remove module registration |
+| `/new-module NAME` | Scaffold a new module project |
+
+## Policy and diagnostics commands
+
+| Command | What it does |
+| --- | --- |
+| `policy validate POLICY_FILE` | Validate policy JSON |
+| `policy explain REQUEST_TEXT` | Explain matched policy rules |
+| `audit list` | List execution audit records |
+| `audit show ID [--json]` | Inspect one audit record |
+| `replay ID [--no-exec]` | Replay previous decision |
+| `doctor [--json]` | Run diagnostics |
+| `inspect-module TARGET [--json]` | Show module trust and manifest posture |
+
+## Model selection shortcuts
+
+```bash
+vitruvian --model openai
+vitruvian --model anthropic:claude-3-5-sonnet-latest
+vitruvian --model gemini:gemini-2.0-flash
+```

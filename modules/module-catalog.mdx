@@ -1,0 +1,44 @@
+---
+title: "Module catalog"
+description: "Built-in modules, optional modules, and how routing picks the right one."
+---
+
+## Built-in standard modules
+
+From `src/Vitruvian.StandardModules`:
+
+- `ConversationModule`
+- `FileOperationsModule`
+- `ShellCommandModule`
+- `SummarizationModule`
+- `WebSearchModule`
+
+## Other included modules
+
+- `Vitruvian.WeatherModule` in `src/Vitruvian.WeatherModule`
+- `GmailMcpModule` in `modules/Vitruvian.GmailModule`
+
+## Module selection mechanics
+
+Vitruvian uses `ModuleRouter` during planning:
+
+- primary path: model-assisted route selection
+- fallback path: deterministic keyword matching
+
+Your module `Description` quality directly affects route quality.
+
+## Module management at runtime
+
+Use CLI commands:
+
+- `/list-modules`
+- `/configure-modules`
+- `/install-module <path>`
+- `/load-module <path>`
+- `/unregister-module <domain or filename>`
+
+## Gotchas
+
+- Keep module domains unique.
+- Keep descriptions concrete and task-focused.
+- Do not disable critical core modules in production without a rollback path.

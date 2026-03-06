@@ -18,6 +18,50 @@
             "pages": [
               "index"
             ]
+          },
+          {
+            "group": "Getting started",
+            "pages": [
+              "getting-started/installation",
+              "getting-started/configuration-profiles",
+              "getting-started/running-vitruvian"
+            ]
+          },
+          {
+            "group": "Core concepts",
+            "pages": [
+              "core-concepts/architecture",
+              "core-concepts/compound-requests"
+            ]
+          },
+          {
+            "group": "Modules",
+            "pages": [
+              "modules/module-catalog",
+              "modules/build-a-plugin"
+            ]
+          },
+          {
+            "group": "Operations",
+            "pages": [
+              "operations/security-model",
+              "operations/governance-policy",
+              "operations/operations-playbook"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/cli-commands",
+              "reference/environment-variables"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/gotchas",
+              "contributing"
+            ]
           }
         ]
       }
@@ -38,33 +82,33 @@
     }
   },
   "logo": {
-      "light": "/logo/light.svg",
-      "dark": "/logo/dark.svg"
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
       {
-          "label": "GitHub",
-          "href": "https://github.com/mrrasmussendk/Vitruvian"
-        }
-      ],
-      "primary": {
-        "type": "button",
-        "label": "Report an issue",
-        "href": "https://github.com/mrrasmussendk/Vitruvian/issues"
+        "label": "GitHub",
+        "href": "https://github.com/mrrasmussendk/Vitruvian"
       }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Report an issue",
+      "href": "https://github.com/mrrasmussendk/Vitruvian/issues"
+    }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
